@@ -3,19 +3,15 @@
 <suite parallel="none" name="Failed suite [Default suite]">
   <test parallel="none" name="Default test(failed)">
     <classes>
-      <class name="session2.draggerTest">
+      <class name="session3.ContactTest">
         <methods>
-          <include name="testDragDrop"/>
           <include name="beforeClass"/>
           <include name="beforeMethod"/>
           <include name="afterClass"/>
-          <include name="beforeSuite"/>
-          <include name="afterTest"/>
-          <include name="beforeTest"/>
+          <include name="TestSuccess" invocation-numbers="0 1"/>
           <include name="afterMethod"/>
-          <include name="afterSuite"/>
         </methods>
-      </class> <!-- session2.draggerTest -->
+      </class> <!-- session3.ContactTest -->
     </classes>
   </test> <!-- Default test(failed) -->
 </suite> <!-- Failed suite [Default suite] -->

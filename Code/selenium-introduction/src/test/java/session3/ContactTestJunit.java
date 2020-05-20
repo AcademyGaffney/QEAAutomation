@@ -21,6 +21,7 @@ public class ContactTestJunit {
 	private static WebDriver driver = null;
 	
 	@BeforeAll
+	
 	public static void setUpBeforeClass() throws Exception {
 		System.setProperty("webdriver.chrome.driver", "chromedriver");
 		driver = new ChromeDriver();
@@ -28,6 +29,7 @@ public class ContactTestJunit {
 
 	@AfterAll
 	public static void tearDownAfterClass() throws Exception {
+		driver.close();
 	}
 
 	@BeforeEach
@@ -41,7 +43,7 @@ public class ContactTestJunit {
 	}
 
 	@ParameterizedTest
-	@CsvSource({"James, J@example.com, 23211199228", "Siobhan, Siobee@example.com,8927183928"})
+	@CsvSource({"James, J@example.com, 23211199228", "Siobhan, Siobee@example.com, 8927183928"})
 	public void testSuccess(String name, String email, String phone) throws Exception {
 		WebElement nameBox = driver.findElement(By.xpath("/html/body/div[1]/div[2]/div[2]/div/aside/div/section[2]/form/div/span[1]/input"));
 		WebElement emailBox = driver.findElement(By.xpath("/html/body/div[1]/div[2]/div[2]/div/aside/div/section[2]/form/div/span[2]/input"));
@@ -55,6 +57,8 @@ public class ContactTestJunit {
 		
 		WebDriverWait wait = new WebDriverWait(driver, 1);
 		WebElement message = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"presscore-contact-form-widget-3\"]/form/div[1]/div")));
+		
+		assertEquals("Feedback has been sent to the administrator", message.getText());
 	}
 
 }

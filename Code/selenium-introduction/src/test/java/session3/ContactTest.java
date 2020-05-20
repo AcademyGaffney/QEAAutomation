@@ -12,45 +12,57 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterClass;
 
 public class ContactTest {
 
 	private static WebDriver driver = null;
-	
+
 	@Test(dataProvider = "dpS")
 	public void TestSuccess(String name, String email, String phone) throws Exception {
-		WebElement nameBox = driver.findElement(By.xpath("/html/body/div[1]/div[2]/div[2]/div/aside/div/section[2]/form/div/span[1]/input"));
-		WebElement emailBox = driver.findElement(By.xpath("/html/body/div[1]/div[2]/div[2]/div/aside/div/section[2]/form/div/span[2]/input"));
-		WebElement phoneBox = driver.findElement(By.xpath("/html/body/div[1]/div[2]/div[2]/div/aside/div/section[2]/form/div/span[3]/input"));
-		
+		WebElement nameBox = driver.findElement(
+				By.xpath("/html/body/div[1]/div[2]/div[2]/div/aside/div/section[2]/form/div/span[1]/input"));
+		WebElement emailBox = driver.findElement(
+				By.xpath("/html/body/div[1]/div[2]/div[2]/div/aside/div/section[2]/form/div/span[2]/input"));
+		WebElement phoneBox = driver.findElement(
+				By.xpath("/html/body/div[1]/div[2]/div[2]/div/aside/div/section[2]/form/div/span[3]/input"));
+
 		nameBox.sendKeys(name);
 		emailBox.sendKeys(email);
 		phoneBox.sendKeys(phone);
 		phoneBox.submit();
-		
-		//Thread.sleep(500);
-		
-		WebElement message = driver.findElement(By.xpath("//*[@id=\"presscore-contact-form-widget-3\"]/form/div[1]/div"));
+
+		WebDriverWait wait = new WebDriverWait(driver, 1);
+
+		WebElement message = wait.until(ExpectedConditions
+				.elementToBeClickable(By.xpath("//*[@id=\"presscore-contact-form-widget-3\"]/form/div[1]/div")));
 		assertEquals("Feedback has been sent to the administrator", message.getText());
-		
+
 	}
+
 	@Test(dataProvider = "dpF")
 	public void testEmailFail(String name, String email, String phone, String error) throws Exception {
-		WebElement nameBox = driver.findElement(By.xpath("/html/body/div[1]/div[2]/div[2]/div/aside/div/section[2]/form/div/span[1]/input"));
-		WebElement emailBox = driver.findElement(By.xpath("/html/body/div[1]/div[2]/div[2]/div/aside/div/section[2]/form/div/span[2]/input"));
-		WebElement phoneBox = driver.findElement(By.xpath("/html/body/div[1]/div[2]/div[2]/div/aside/div/section[2]/form/div/span[3]/input"));
-	
+		WebElement nameBox = driver.findElement(
+				By.xpath("/html/body/div[1]/div[2]/div[2]/div/aside/div/section[2]/form/div/span[1]/input"));
+		WebElement emailBox = driver.findElement(
+				By.xpath("/html/body/div[1]/div[2]/div[2]/div/aside/div/section[2]/form/div/span[2]/input"));
+		WebElement phoneBox = driver.findElement(
+				By.xpath("/html/body/div[1]/div[2]/div[2]/div/aside/div/section[2]/form/div/span[3]/input"));
+
 		nameBox.sendKeys(name);
 		emailBox.sendKeys(email);
 		phoneBox.sendKeys(phone);
 		phoneBox.submit();
-		
-		//Thread.sleep(500);
-		
-		WebElement message = driver.findElement(By.xpath("/html/body/div[1]/div[2]/div[2]/div/aside/div/section[2]/form/div/span[2]/div/div[1]"));
-		assert(message.getText().contains(error));
-	
+
+		WebDriverWait wait = new WebDriverWait(driver, 1);
+
+		WebElement message = wait.until(ExpectedConditions.elementToBeClickable(
+				By.xpath("/html/body/div[1]/div[2]/div[2]/div/aside/div/section[2]/form/div/span[2]/div/div[1]")));
+
+		assert (message.getText().contains(error));
+
 	}
 
 	@BeforeMethod
