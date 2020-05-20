@@ -19,16 +19,23 @@ import org.testng.annotations.AfterSuite;
 public class draggerTest {
 	private static WebDriver driver = null;
 
-	@Test
+	@Test(priority = 1)
 	public void testDragDrop() {
 		WebElement dragMe = driver.findElement(By.id("draga"));
 		WebElement dragTo = driver.findElement(By.id("dragb"));
 		Actions act = new Actions(driver);
 		
-		act.dragAndDrop(dragMe, dragTo);
+		//act.dragAndDrop(dragMe, dragTo).build().perform();
 		
-		//WebElement dragMeMoved = driver.findElement(By.xpath("//*[@id='dragb']/button"));
-		WebElement dragMeMoved = driver.findElement(By.id("draga"));
+		act.moveToElement(dragMe)
+		.clickAndHold()
+		.moveToElement(dragTo, 10, -5)
+		.release()
+		.build()
+		.perform();
+		
+		WebElement dragMeMoved = driver.findElement(By.xpath("//*[@id='dragb']/button"));
+		//WebElement dragMeMoved = driver.findElement(By.id("draga"));
 		
 		Assert.assertEquals(dragMe, dragMeMoved);
 	}
@@ -51,7 +58,7 @@ public class draggerTest {
 
 	@AfterClass
 	public void afterClass() {
-		driver.close();
+		//driver.close();
 	}
 
 	@BeforeTest
